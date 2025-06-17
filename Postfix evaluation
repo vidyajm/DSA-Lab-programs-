@@ -1,0 +1,53 @@
+#include <iostream>
+#include <stack>
+#include <cmath>
+using namespace std;
+
+int evaluatePostfix(string expr) {
+stack<int> stk;
+
+for (size_t i = 0; i < expr.size(); i++) {
+char c = expr[i];
+
+if (isdigit(c)) {
+stk.push(c - '0');
+} else {
+
+int operand2 = stk.top();
+stk.pop();
+int operand1 = stk.top();
+stk.pop();
+switch (c) {
+case '+':
+stk.push(operand1 + operand2);
+break;
+case '-':
+stk.push(operand1 - operand2);
+break;
+case '*':
+stk.push(operand1 * operand2);
+break;
+case '/':
+stk.push(operand1 / operand2);
+break;
+case '^':
+stk.push(pow(operand1, operand2));
+break;
+default:
+cout << "Invalid operator\n";
+return -1;
+}
+}
+}
+return stk.top();
+}
+int main() {
+string expr;
+cout << "Enter a postfix expression: ";
+getline(cin, expr);
+int result = evaluatePostfix(expr);
+if (result != -1) {
+cout << "Result: " << result << endl;
+}
+return 0;
+}
